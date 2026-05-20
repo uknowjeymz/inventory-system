@@ -1,0 +1,924 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Feb 20, 2026 at 07:07 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `ucc_labtech`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assignment_history`
+--
+
+CREATE TABLE `assignment_history` (
+  `id` int(11) NOT NULL,
+  `computer_id` int(11) NOT NULL,
+  `location_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `assigned_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `returned_date` timestamp NULL DEFAULT NULL,
+  `assigned_by` int(11) NOT NULL,
+  `notes` text DEFAULT NULL,
+  `status` enum('active','returned','transferred') DEFAULT 'active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `assignment_history`
+--
+
+INSERT INTO `assignment_history` (`id`, `computer_id`, `location_id`, `user_id`, `assigned_date`, `returned_date`, `assigned_by`, `notes`, `status`) VALUES
+(1, 177, 1, 16, '2026-02-02 04:36:27', NULL, 16, NULL, 'active'),
+(2, 177, 14, 16, '2026-02-02 04:36:39', NULL, 16, NULL, 'active'),
+(3, 199, 2, 15, '2026-02-20 02:07:03', NULL, 15, NULL, 'active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `computer_inventory`
+--
+
+CREATE TABLE `computer_inventory` (
+  `id` int(11) NOT NULL,
+  `item_number` varchar(50) DEFAULT NULL,
+  `property_no` varchar(255) DEFAULT NULL,
+  `article` varchar(100) DEFAULT NULL,
+  `computer_set_description` varchar(200) NOT NULL,
+  `processor` varchar(100) NOT NULL,
+  `ram` varchar(50) NOT NULL,
+  `storage` varchar(100) NOT NULL,
+  `device_type` enum('Desktop','Laptop','All-in-One') NOT NULL,
+  `keyboard_status` enum('OK','Missing','Damaged','Needs Repair') DEFAULT 'OK',
+  `mouse_status` enum('OK','Missing','Damaged','Needs Repair') DEFAULT 'OK',
+  `power_cord_status` enum('OK','Missing','Damaged','Needs Repair') DEFAULT 'OK',
+  `hdmi_status` enum('OK','Missing','Damaged','Needs Repair') DEFAULT 'OK',
+  `operating_system` varchar(100) DEFAULT NULL,
+  `serial_number` varchar(200) NOT NULL,
+  `serial_number_monitor` varchar(200) DEFAULT NULL,
+  `serial_number_system` varchar(200) DEFAULT NULL,
+  `condition_status` enum('Excellent','Good','Fair','Poor','Damaged') DEFAULT 'Good',
+  `location_id` int(11) DEFAULT NULL,
+  `campus` varchar(100) DEFAULT 'Main Campus',
+  `remarks` text DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `status` enum('available','assigned','maintenance','damaged','retired') DEFAULT 'available',
+  `is_condemned` tinyint(1) DEFAULT 0,
+  `condemned_date` timestamp NULL DEFAULT NULL,
+  `condemned_reason` text DEFAULT NULL,
+  `condemned_by` int(11) DEFAULT NULL,
+  `assigned_to` int(11) DEFAULT NULL,
+  `assigned_date` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cost` decimal(10,2) DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `computer_inventory`
+--
+
+INSERT INTO `computer_inventory` (`id`, `item_number`, `property_no`, `article`, `computer_set_description`, `processor`, `ram`, `storage`, `device_type`, `keyboard_status`, `mouse_status`, `power_cord_status`, `hdmi_status`, `operating_system`, `serial_number`, `serial_number_monitor`, `serial_number_system`, `condition_status`, `location_id`, `campus`, `remarks`, `image_path`, `status`, `is_condemned`, `condemned_date`, `condemned_reason`, `condemned_by`, `assigned_to`, `assigned_date`, `created_at`, `updated_at`, `cost`) VALUES
+(175, 'COM-001', '2023-05-03-0153-089A', 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', '2023-05-03-0153-089A', 'MMTKSS003320101143W01', 'DTBK7SP001319021059800', 'Excellent', NULL, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-01-30 08:24:37', '2026-02-20 02:08:45', 61500.00),
+(176, 'COM-002', '2023-05-03-0154-089A', 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', '2023-05-03-0154-089A', 'MMTKSSP003320101CD3W01', 'DTBK7SP001319021A59800', 'Excellent', NULL, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-01-30 08:28:30', '2026-02-20 02:08:52', 61500.00),
+(177, 'COM-003', '2023-05-03-0155-089A', 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', '2023-05-03-0155-089A', 'MMTKSSP003320100C63W01', 'DTBK7SP001319021429800', 'Good', 14, 'South Campus', 'Monica Mariano', NULL, 'available', 0, '2026-02-02 05:41:54', 'OS', 12, NULL, NULL, '2026-01-30 08:59:04', '2026-02-20 02:08:55', 61500.00),
+(178, 'COM-004', '2023-05-03-0156-089A', 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', '2023-05-03-0156-089A', 'MMTKSSP003320100CD3W01', 'DTBK7SP001319021289800', 'Excellent', NULL, 'South Campus', 'Monica Mariano', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-01-30 09:00:09', '2026-02-20 02:09:00', 61500.00),
+(179, 'COM-005', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00334601A862X00', 'SN- DTBK7SP00241200E249600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:39:22', '2026-02-20 01:58:38', 61500.00),
+(180, 'COM-006', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00341606DB92X00', 'SN- DTBK7SP00241200D619600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:39:51', '2026-02-20 01:58:38', 61500.00),
+(181, 'COM-007', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00334601A7C2X00', 'SN- DTBK7SP00241200CD19600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:40:28', '2026-02-20 01:58:38', 61500.00),
+(182, 'COM-008', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00341606B2D2X00', 'SN- DTBK7SP00241200D099600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:40:58', '2026-02-20 01:58:38', 61500.00),
+(183, 'COM-009', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00334601AB52X00', 'SN- DTBK7SP00241200E1C9600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:41:27', '2026-02-20 01:58:38', 61500.00),
+(184, 'COM-010', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00341606CD82X00', 'SN- DTBK7SP00241200D6F9600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:41:54', '2026-02-20 01:58:38', 61500.00),
+(185, 'COM-011', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00341606B142X00', 'SN- DTBK7SP00241200E329600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:42:28', '2026-02-20 01:58:38', 61500.00),
+(186, 'COM-012', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00341606CDD2X00', 'SN- DTBK7SP00241200DDC9600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:42:54', '2026-02-20 01:58:38', 61500.00),
+(187, 'COM-013', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00341606B272X00', 'SN- DTBK7SP00241200E869600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:43:20', '2026-02-20 01:58:38', 61500.00),
+(188, 'COM-014', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00341606D9C2X00', 'SN- DTBK7SP00241200E289600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:43:57', '2026-02-20 01:58:38', 61500.00),
+(189, 'COM-015', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP003351019832X00', 'SN- DTBK7SP00241200F1B9600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:44:27', '2026-02-20 01:58:38', 61500.00),
+(190, 'COM-016', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00334601AF22X00', 'SN- DTBK7SP00241200F119600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:44:52', '2026-02-20 01:58:38', 61500.00),
+(191, 'COM-017', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00341606C732X00', 'SN- DTBK7SP00241200DD79600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:45:17', '2026-02-20 01:58:38', 61500.00),
+(192, 'COM-018', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTKSSP003320100CB3W01', 'SN- DTBK7SP00241200E889600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:45:43', '2026-02-20 01:58:38', 61500.00),
+(193, 'COM-019', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00341606CF72X00', 'SN- DTBK7SP00241200E119600', 'Excellent', 1, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:46:08', '2026-02-20 01:58:38', 61500.00),
+(194, 'ALL-001', NULL, 'All-in-One', 'Chinese All in One', 'N/A', 'N/A', 'N/A', 'All-in-One', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', NULL, NULL, 'Excellent', 15, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:48:15', '2026-02-20 01:45:01', 0.00),
+(195, 'ALL-002', NULL, 'All-in-One', 'Lenovo - All in One', 'N/A', 'N/A', 'N/A', 'All-in-One', 'OK', 'OK', 'OK', 'OK', 'Windows 10', 'P900TVR3', NULL, NULL, 'Excellent', 15, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 03:49:01', '2026-02-20 01:45:01', 0.00),
+(196, 'COM-020', '2023-05-03-0156-089A', 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', '2023-05-03-0156-089A', 'MMTKSSP003320100CD3W01', 'DTBK7SP001319021289800', 'Excellent', NULL, 'South Campus', 'Monica Mariano', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 04:09:34', '2026-02-20 02:09:11', 61500.00),
+(197, 'COM-021', '2023-05-03-0162-089A', 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', '2023-05-03-0162-089A', 'MMTKSSP003320100FB3W01', 'DTBK7SP0013190210F9800', 'Excellent', NULL, 'South Campus', 'Monica Mariano', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 04:10:39', '2026-02-20 02:09:15', 61500.00),
+(198, 'ALL-003', NULL, 'All-in-One', 'Lenovo - All in One', 'N/A', 'N/A', 'N/A', 'All-in-One', 'OK', 'OK', 'OK', 'OK', 'Windows 10', 'N/A', NULL, NULL, 'Excellent', 15, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-02 05:55:24', '2026-02-20 01:45:01', 50790.00),
+(199, 'COM-022', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600DB72X00', 'DTBLNSP00553901F0E9600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:00:55', '2026-02-20 02:07:03', 69949.00),
+(200, 'COM-023', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600DE42X00', 'DTBLNSP00553901E149600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:06:28', '2026-02-20 01:58:38', 69949.00),
+(201, 'COM-024', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600DE52X00', 'DTBLNSP005539010069600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:09:33', '2026-02-20 01:58:38', 69949.00),
+(202, 'COM-025', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600AAD2X00', 'DTBLNSP0055390102A9600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:11:19', '2026-02-20 01:58:38', 69949.00),
+(203, 'COM-026', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600DB52X00', 'DTBLNSP00553901E849600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:13:33', '2026-02-20 01:58:38', 69949.00),
+(204, 'COM-027', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600DD42X00', 'DTBLNSP005539010509600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:14:51', '2026-02-20 01:58:38', 69949.00),
+(205, 'COM-028', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600D792X00', 'DTBLNSP00553901F029600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:15:56', '2026-02-20 01:58:38', 69949.00),
+(206, 'COM-029', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600D782X00', 'DTBLNSP00553901E769600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:17:56', '2026-02-20 01:58:38', 69949.00),
+(207, 'COM-030', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP003546006B12X00', 'DTBLNSP00553901E919600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:20:53', '2026-02-20 01:58:38', 69949.00),
+(208, 'COM-031', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600D7E2X00', 'DTBLNSP00553901F239600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:22:10', '2026-02-20 01:58:38', 69949.00),
+(209, 'COM-032', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600DD22X00', 'DTBLNSP00553901ED09600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:24:13', '2026-02-20 01:58:38', 69949.00),
+(210, 'COM-033', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600A932X00', 'DTBLNSP00553901E199600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:25:59', '2026-02-20 01:58:38', 69949.00),
+(211, 'COM-034', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600AAE2X00', 'DTBLNSP00553901E029600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:26:42', '2026-02-20 01:58:38', 69949.00),
+(212, 'COM-035', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600DAF2X00', 'DTBLNSP0055390102E9600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:28:29', '2026-02-20 01:58:38', 69949.00),
+(213, 'COM-036', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600AA32X00', 'DTBLNSP005539010099600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:29:22', '2026-02-20 01:58:38', 69949.00),
+(214, 'COM-037', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600D972X00', 'DTBLNSP00553901F0F9600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:31:07', '2026-02-20 01:58:38', 69949.00),
+(215, 'COM-038', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600DB82X00', 'DTBLNSP00553901E7F9600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:32:11', '2026-02-20 01:58:38', 69949.00),
+(216, 'COM-039', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600D8D2X00', 'DTBLNSP00553901E729600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:33:21', '2026-02-20 01:58:38', 69949.00),
+(217, 'COM-040', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600D9B2X00', 'DTBLNSP00553901E749600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:34:21', '2026-02-20 01:58:38', 69949.00),
+(218, 'COM-041', NULL, 'Computer Package', 'ASPIRE TC 1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', 'N/A', 'MMTX5SP00354600A9C2X00', 'DTBLNSP00553901F089600', 'Excellent', 2, 'South Campus', 'Efren P. Victoria', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-18 07:35:08', '2026-02-20 01:45:14', 69949.00),
+(219, 'ALL-004', '2022-05-03-0134-089', 'All-in-One', 'AIO Computer', 'Intel Core i3-10100', '8GB', '238GB SSD', 'All-in-One', 'OK', 'OK', 'OK', 'OK', 'Windows 11', '20221246', NULL, NULL, 'Excellent', NULL, 'South Campus', 'Dr. Teodoro Macaraeg Jr.', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-20 04:42:53', '2026-02-20 04:44:38', 574800.00),
+(220, 'COM-042', '2023-05-03-0162-089A', 'Computer Package', 'ASPIRE TC1770', 'core i3-13100', '8GB DDR4 3200MHz UDIMM', '256GB M.2 2280 SSD + 1TB HDD', 'Desktop', 'OK', 'OK', 'OK', 'OK', 'Windows 11', '2023-05-03-0162-089A', 'MMTKSSP003320100FB3W01', 'DTBK7SP0013190210F9800', 'Excellent', NULL, 'South Campus', 'Monica Mariano', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-20 04:52:46', '2026-02-20 04:52:46', 61500.00),
+(221, 'LAP-001', '2025-05-03-0300-089A', 'Laptop', 'Laptop', 'AMD 5900HX', '16GB', '512GB SSD', 'Laptop', 'OK', 'OK', 'OK', 'OK', 'Windows 10', 'NANOCX02M786424', NULL, NULL, 'Excellent', NULL, 'South Campus', 'Monica B. Mariano', NULL, 'available', 0, NULL, NULL, NULL, NULL, NULL, '2026-02-20 04:54:44', '2026-02-20 04:54:44', 106000.00);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `computer_inventory_detailed`
+-- (See below for the actual view)
+--
+CREATE TABLE `computer_inventory_detailed` (
+`id` int(11)
+,`item_number` varchar(50)
+,`computer_set_description` varchar(200)
+,`processor` varchar(100)
+,`ram` varchar(50)
+,`storage` varchar(100)
+,`device_type` enum('Desktop','Laptop','All-in-One')
+,`keyboard_status` enum('OK','Missing','Damaged','Needs Repair')
+,`mouse_status` enum('OK','Missing','Damaged','Needs Repair')
+,`power_cord_status` enum('OK','Missing','Damaged','Needs Repair')
+,`hdmi_status` enum('OK','Missing','Damaged','Needs Repair')
+,`operating_system` varchar(100)
+,`serial_number` varchar(200)
+,`condition_status` enum('Excellent','Good','Fair','Poor','Damaged')
+,`location_id` int(11)
+,`remarks` text
+,`status` enum('available','assigned','maintenance','damaged','retired')
+,`assigned_to` int(11)
+,`assigned_date` timestamp
+,`created_at` timestamp
+,`updated_at` timestamp
+,`location_name` varchar(100)
+,`assigned_user` varchar(100)
+,`peripheral_summary` varchar(4)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `condemned_equipment`
+--
+
+CREATE TABLE `condemned_equipment` (
+  `id` int(11) NOT NULL,
+  `model` varchar(100) NOT NULL,
+  `category` enum('System Unit','Monitor','All in one','Keyboard','AVR','Other') NOT NULL,
+  `serial_number` varchar(200) DEFAULT NULL,
+  `equipment_type` enum('monitor_system','keyboard') NOT NULL COMMENT 'Indicates if from monitor/system section or keyboard section',
+  `reason_condemned` text DEFAULT NULL,
+  `condemned_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `condemned_by` int(11) DEFAULT NULL,
+  `disposal_status` varchar(50) DEFAULT 'pending',
+  `disposal_date` timestamp NULL DEFAULT NULL,
+  `disposal_notes` text DEFAULT NULL,
+  `estimated_value` decimal(10,2) DEFAULT 0.00,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `condemned_equipment`
+--
+
+INSERT INTO `condemned_equipment` (`id`, `model`, `category`, `serial_number`, `equipment_type`, `reason_condemned`, `condemned_date`, `condemned_by`, `disposal_status`, `disposal_date`, `disposal_notes`, `estimated_value`, `created_at`, `updated_at`) VALUES
+(2, 'Chair', 'Other', NULL, '', 'Broken', '2026-01-27 02:35:15', NULL, 'Complete Condemned', NULL, NULL, 0.00, '2026-01-27 02:55:31', '2026-01-27 03:00:16'),
+(3, 'LAPTOP-01', 'Other', 'SN-LAPTOP-001', '', 'Defective Display', '2026-01-27 02:59:29', NULL, 'Complete Condemned', NULL, NULL, 0.00, '2026-01-27 02:59:43', '2026-01-27 03:00:33'),
+(4, 'LENOVO', 'All in one', 'PQ00TVMN', 'monitor_system', 'System does not power on / Hardware failure', '2026-02-02 04:47:14', 16, 'pending', NULL, NULL, 0.00, '2026-02-02 04:47:14', '2026-02-02 04:47:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `consumables`
+--
+
+CREATE TABLE `consumables` (
+  `id` int(11) NOT NULL,
+  `item_name` varchar(100) NOT NULL,
+  `category` varchar(50) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `status` enum('Available','Low','Out of Stock') DEFAULT 'Available',
+  `unit` varchar(20) DEFAULT NULL,
+  `supplier` varchar(100) DEFAULT NULL,
+  `received_date` date DEFAULT NULL,
+  `expiry_date` date DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `brand` varchar(100) DEFAULT NULL,
+  `serial_number` varchar(100) DEFAULT NULL,
+  `identification` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `consumables`
+--
+
+INSERT INTO `consumables` (`id`, `item_name`, `category`, `quantity`, `status`, `unit`, `supplier`, `received_date`, `expiry_date`, `created_at`, `brand`, `serial_number`, `identification`) VALUES
+(25, 'Notebook', 'Stationery', 200, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'ClassMate', NULL, 'ST001'),
+(26, 'Pen', 'Stationery', 500, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Reynolds', NULL, 'ST002'),
+(27, 'Pencil', 'Stationery', 300, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Faber-Castell', NULL, 'ST003'),
+(28, 'Eraser', 'Stationery', 150, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Camlin', NULL, 'ST004'),
+(29, 'Ruler', 'Stationery', 100, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Maped', NULL, 'ST005'),
+(30, 'Sharpener', 'Stationery', 120, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Faber-Castell', NULL, 'ST006'),
+(31, 'Glue Stick', 'Stationery', 80, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Pritt', NULL, 'ST007'),
+(32, 'Highlighter', 'Stationery', 90, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Staedtler', NULL, 'ST008'),
+(33, 'Whiteboard Marker', 'Stationery', 100, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Staedtler', NULL, 'ST009'),
+(34, 'Stapler', 'Stationery', 40, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Swingline', NULL, 'ST010'),
+(35, 'Paper Clips', 'Stationery', 500, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'ACCO', NULL, 'ST011'),
+(36, 'Notebook Divider', 'Stationery', 60, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'ClassMate', NULL, 'ST012'),
+(37, 'Sticky Notes', 'Stationery', 200, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Post-it', NULL, 'ST013'),
+(38, 'Sketch Book', 'Stationery', 50, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Camel', NULL, 'ST014'),
+(39, 'Art Paper', 'Stationery', 39, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Camlin', NULL, 'ST015'),
+(40, 'Laptop', 'Technical', 20, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Dell', 'LT1001', 'TE001'),
+(41, 'Desktop Computer', 'Technical', 10, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'HP', 'DC1002', 'TE002'),
+(42, 'Projector', 'Technical', 5, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Epson', 'PJ1003', 'TE003'),
+(43, 'Printer', 'Technical', 5, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Canon', 'PR1004', 'TE004'),
+(44, 'Scanner', 'Technical', 3, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Brother', 'SC1005', 'TE005'),
+(45, 'Router', 'Technical', 10, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'TP-Link', 'RT1006', 'TE006'),
+(46, 'External Hard Drive', 'Technical', 15, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Seagate', 'HD1007', 'TE007'),
+(47, 'USB Flash Drive', 'Technical', 40, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'SanDisk', NULL, 'TE008'),
+(48, 'Monitor', 'Technical', 15, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Samsung', 'MN1009', 'TE009'),
+(49, 'Keyboard', 'Technical', 25, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Logitech', NULL, 'TE010'),
+(50, 'Mouse', 'Technical', 25, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Logitech', NULL, 'TE011'),
+(51, 'HDMI Cable', 'Technical', 20, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Belkin', NULL, 'TE012'),
+(52, 'Ethernet Cable', 'Technical', 60, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'TP-Link', NULL, 'TE013'),
+(53, 'Power Strip', 'Technical', 20, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Panasonic', NULL, 'TE014'),
+(54, 'Microphone', 'Technical', 8, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Shure', 'MC1015', 'TE015'),
+(55, 'Speakers', 'Technical', 6, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Logitech', 'SP1016', 'TE016'),
+(56, 'Webcam', 'Technical', 10, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Logitech', 'WC1017', 'TE017'),
+(57, 'Headphones', 'Technical', 15, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Sony', 'HP1018', 'TE018'),
+(58, 'Beaker 100ml', 'Lab', 30, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Pyrex', NULL, 'LB001'),
+(59, 'Beaker 250ml', 'Lab', 20, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Pyrex', NULL, 'LB002'),
+(60, 'Test Tube', 'Lab', 50, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Pyrex', NULL, 'LB003'),
+(61, 'Microscope', 'Lab', 5, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Olympus', 'MC1020', 'LB004'),
+(62, 'Petri Dish', 'Lab', 100, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Corning', NULL, 'LB005'),
+(63, 'Bunsen Burner', 'Lab', 10, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'LabTech', 'BB1021', 'LB006'),
+(64, 'Pipette', 'Lab', 40, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Eppendorf', NULL, 'LB007'),
+(65, 'Safety Goggles', 'Lab', 60, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', '3M', NULL, 'LB008'),
+(66, 'Lab Coat', 'Lab', 50, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Portwest', NULL, 'LB009'),
+(67, 'Oil Paint Set', 'Art', 15, 'Available', 'sets', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Camel', NULL, 'AR001'),
+(68, 'Watercolor Set', 'Art', 20, 'Available', 'sets', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Winsor & Newton', NULL, 'AR002'),
+(69, 'Brush Set', 'Art', 25, 'Available', 'sets', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Princeton', NULL, 'AR003'),
+(70, 'Canvas Board', 'Art', 30, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Canson', NULL, 'AR004'),
+(71, 'Palette', 'Art', 20, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Master Art', NULL, 'AR005'),
+(72, 'Clay Pack', 'Art', 40, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Staedtler', NULL, 'AR006'),
+(73, 'Chalk', 'Stationery', 50, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Dixon', NULL, 'MS001'),
+(74, 'Whiteboard', 'Stationery', 10, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Quartet', 'WB1022', 'MS002'),
+(75, 'Clock', 'Stationery', 5, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Casio', NULL, 'MS003'),
+(76, 'Project File', 'Stationery', 60, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'ClassMate', NULL, 'MS004'),
+(77, 'File Organizer', 'Stationery', 40, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Esselte', NULL, 'MS005'),
+(78, 'Label Sticker', 'Stationery', 200, 'Available', 'pcs', NULL, NULL, NULL, '2026-01-23 01:24:22', 'Avery', NULL, 'MS006'),
+(79, 'Ballpen', 'Panda', 0, '', '2 box', NULL, NULL, NULL, '2026-01-27 08:04:43', 'Panda', NULL, 'BP001'),
+(80, 'Computer Package', 'Computer', 16, 'Available', '1 unit', NULL, NULL, NULL, '2026-01-27 08:09:25', 'Acer', NULL, 'PC2026-001'),
+(81, 'Ballen', 'Panda', 40, 'Available', '1 box', NULL, NULL, NULL, '2026-01-30 05:11:36', 'Panda', NULL, 'Office Supplies'),
+(82, 'Legal Bond Paper', 'Office Supplies', 500, 'Available', '1 ream', NULL, NULL, NULL, '2026-02-02 02:32:01', 'Hard Copy', NULL, 'LBP001');
+
+--
+-- Triggers `consumables`
+--
+DELIMITER $$
+CREATE TRIGGER `update_status` BEFORE UPDATE ON `consumables` FOR EACH ROW BEGIN
+    IF NEW.quantity <= 0 THEN
+        SET NEW.status = 'Critical';
+    ELSEIF NEW.quantity <= 10 THEN
+        SET NEW.status = 'Low';
+    ELSE
+        SET NEW.status = 'Available';
+    END IF;
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `general_equipment`
+--
+
+CREATE TABLE `general_equipment` (
+  `id` int(11) NOT NULL,
+  `item_number` varchar(50) DEFAULT NULL,
+  `article` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `brand` varchar(100) DEFAULT NULL,
+  `model` varchar(100) DEFAULT NULL,
+  `property_no` varchar(100) DEFAULT NULL,
+  `cost` decimal(10,2) DEFAULT 0.00,
+  `condition_status` enum('Excellent','Good','Fair','Poor','Damaged') DEFAULT 'Good',
+  `location_id` int(11) DEFAULT NULL,
+  `campus` varchar(100) DEFAULT 'Main Campus',
+  `status` enum('available','assigned','maintenance','condemned') DEFAULT 'available',
+  `is_condemned` tinyint(1) DEFAULT 0,
+  `condemned_date` timestamp NULL DEFAULT NULL,
+  `condemned_reason` text DEFAULT NULL,
+  `condemned_by` int(11) DEFAULT NULL,
+  `assigned_to` int(11) DEFAULT NULL,
+  `assigned_date` datetime DEFAULT NULL,
+  `purchase_date` date DEFAULT NULL,
+  `warranty_expiry` date DEFAULT NULL,
+  `remarks` text DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `general_equipment`
+--
+
+INSERT INTO `general_equipment` (`id`, `item_number`, `article`, `description`, `brand`, `model`, `property_no`, `cost`, `condition_status`, `location_id`, `campus`, `status`, `is_condemned`, `condemned_date`, `condemned_reason`, `condemned_by`, `assigned_to`, `assigned_date`, `purchase_date`, `warranty_expiry`, `remarks`, `image_path`, `created_at`, `updated_at`) VALUES
+(1, 'AIR-001', 'Aircon', 'Aircon 2hp window type, Carrier | SN: 3019-0233809', NULL, NULL, NULL, 55131.12, 'Excellent', 2, 'South Campus', 'available', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Julius Paul Talinio', NULL, '2026-01-30 09:14:53', '2026-02-02 03:50:19'),
+(2, 'AIR-002', 'Aircon', 'Carrier', NULL, NULL, NULL, 0.00, 'Excellent', 1, 'South Campus', 'available', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Dr. Teodoro Macaraeg Jr.', NULL, '2026-02-02 03:46:54', '2026-02-02 03:50:08'),
+(3, 'BOA-001', 'Board', 'Donview', NULL, NULL, NULL, 0.00, 'Excellent', 1, 'South Campus', 'available', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Dr. Teodoro Macaraeg Jr.', NULL, '2026-02-02 03:47:29', '2026-02-02 03:50:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory_adjustments`
+--
+
+CREATE TABLE `inventory_adjustments` (
+  `id` int(11) NOT NULL,
+  `consumable_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `reason` varchar(255) DEFAULT NULL,
+  `adjusted_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kitchen_equipment`
+--
+
+CREATE TABLE `kitchen_equipment` (
+  `id` int(11) NOT NULL,
+  `item_number` varchar(50) DEFAULT NULL,
+  `property_no` varchar(255) DEFAULT NULL,
+  `equipment_name` varchar(255) NOT NULL,
+  `brand` varchar(100) DEFAULT NULL,
+  `model` varchar(100) DEFAULT NULL,
+  `serial_number` varchar(100) DEFAULT NULL,
+  `condition_status` enum('Excellent','Good','Fair','Poor','Damaged') DEFAULT 'Good',
+  `location_id` int(11) DEFAULT NULL,
+  `campus` varchar(100) DEFAULT 'Main Campus',
+  `status` enum('available','assigned','maintenance','condemned') DEFAULT 'available',
+  `is_condemned` tinyint(1) DEFAULT 0,
+  `condemned_date` timestamp NULL DEFAULT NULL,
+  `condemned_reason` text DEFAULT NULL,
+  `condemned_by` int(11) DEFAULT NULL,
+  `assigned_to` int(11) DEFAULT NULL,
+  `assigned_date` datetime DEFAULT NULL,
+  `purchase_date` date DEFAULT NULL,
+  `warranty_expiry` date DEFAULT NULL,
+  `remarks` text DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cost` decimal(10,2) DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lab_equipment`
+--
+
+CREATE TABLE `lab_equipment` (
+  `id` int(11) NOT NULL,
+  `item_number` varchar(50) DEFAULT NULL,
+  `property_no` varchar(255) DEFAULT NULL,
+  `equipment_name` varchar(255) NOT NULL,
+  `brand` varchar(100) DEFAULT NULL,
+  `model` varchar(100) DEFAULT NULL,
+  `serial_number` varchar(100) DEFAULT NULL,
+  `condition_status` enum('Excellent','Good','Fair','Poor','Damaged') DEFAULT 'Good',
+  `location_id` int(11) DEFAULT NULL,
+  `campus` varchar(100) DEFAULT 'Main Campus',
+  `status` enum('available','assigned','maintenance','condemned') DEFAULT 'available',
+  `is_condemned` tinyint(1) DEFAULT 0,
+  `condemned_date` timestamp NULL DEFAULT NULL,
+  `condemned_reason` text DEFAULT NULL,
+  `condemned_by` int(11) DEFAULT NULL,
+  `assigned_to` int(11) DEFAULT NULL,
+  `assigned_date` datetime DEFAULT NULL,
+  `purchase_date` date DEFAULT NULL,
+  `warranty_expiry` date DEFAULT NULL,
+  `calibration_date` date DEFAULT NULL,
+  `next_calibration_date` date DEFAULT NULL,
+  `remarks` text DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cost` decimal(10,2) DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `locations`
+--
+
+CREATE TABLE `locations` (
+  `id` int(11) NOT NULL,
+  `location_name` varchar(100) NOT NULL,
+  `location_type_id` int(11) DEFAULT NULL,
+  `location_type` varchar(50) DEFAULT NULL,
+  `campus` varchar(100) DEFAULT 'Main Campus',
+  `description` text DEFAULT NULL,
+  `capacity` int(11) DEFAULT 0,
+  `facilitator_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `locations`
+--
+
+INSERT INTO `locations` (`id`, `location_name`, `location_type_id`, `location_type`, `campus`, `description`, `capacity`, `facilitator_id`, `created_at`, `updated_at`) VALUES
+(1, 'Computer Lab 1', 10, 'computer_lab', 'Main Campus', 'Main computer laboratory with 30 workstations', 30, NULL, '2026-01-09 06:13:34', '2026-01-11 15:15:20'),
+(2, 'Computer Lab 2', 10, 'computer_lab', 'Main Campus', 'Secondary computer lab with 25 workstations', 25, NULL, '2026-01-09 06:13:34', '2026-01-18 09:53:17'),
+(3, 'Chemistry Lab', NULL, 'regular_lab', 'Main Campus', 'Chemistry laboratory for experiments', 20, NULL, '2026-01-09 06:13:34', '2026-01-09 06:13:34'),
+(4, 'Physics Lab', NULL, 'regular_lab', 'Main Campus', 'Physics laboratory with equipment', 15, NULL, '2026-01-09 06:13:34', '2026-01-09 06:13:34'),
+(5, 'DTIM Kitchen', NULL, 'kitchen', 'Main Campus', 'Department kitchen facility', 10, NULL, '2026-01-09 06:13:34', '2026-01-09 06:13:34'),
+(7, 'Storage Room A', NULL, 'storage', 'Main Campus', 'General storage facility', 0, NULL, '2026-01-09 06:13:34', '2026-01-09 06:13:34'),
+(8, 'Classroom 101', NULL, 'classroom', 'Main Campus', 'Regular classroom', 40, NULL, '2026-01-09 06:13:34', '2026-01-09 06:13:34'),
+(9, 'IT Center', 14, 'it-center', 'Main Campus', '', 20, NULL, '2026-01-23 02:31:23', '2026-01-23 02:57:12'),
+(10, 'EdTech Lab', 15, NULL, 'Main Campus', 'Educational Technology Laboratory', 100, NULL, '2026-01-23 02:51:17', '2026-01-23 02:51:17'),
+(11, 'LabTech Office', 16, NULL, 'Main Campus', 'Bodega :3', 100, NULL, '2026-01-23 06:50:26', '2026-01-23 06:50:26'),
+(12, 'Science Laboratory', 17, NULL, 'Main Campus', 'SciLab', 120, NULL, '2026-01-23 07:04:28', '2026-01-23 07:04:28'),
+(14, 'Admin Room', 20, NULL, 'Main Campus', 'OVP Admin', 200, NULL, '2026-02-02 04:13:19', '2026-02-18 07:37:10'),
+(15, 'Computer Lab 3', 10, NULL, 'Main Campus', 'Tertiary room of CSD', 100, NULL, '2026-02-18 07:36:39', '2026-02-18 07:37:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `location_types`
+--
+
+CREATE TABLE `location_types` (
+  `id` int(11) NOT NULL,
+  `type_code` varchar(50) NOT NULL,
+  `type_name` varchar(100) NOT NULL,
+  `campus` varchar(100) DEFAULT 'Main Campus',
+  `description` text DEFAULT NULL,
+  `icon_class` varchar(50) DEFAULT 'fa-building',
+  `color_primary` varchar(7) DEFAULT '#008543',
+  `color_secondary` varchar(7) DEFAULT '#20c997',
+  `equipment_label` varchar(50) DEFAULT 'Equipment',
+  `manager_title` varchar(50) DEFAULT 'Manager',
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `location_types`
+--
+
+INSERT INTO `location_types` (`id`, `type_code`, `type_name`, `campus`, `description`, `icon_class`, `color_primary`, `color_secondary`, `equipment_label`, `manager_title`, `is_active`, `created_at`, `updated_at`) VALUES
+(10, '3rd Floor', 'CSD', 'Main Campus', 'Computer Science Department', 'fa-desktop', '#008543', '#20c997', 'Units', 'Sir Ted', 1, '2026-01-11 15:13:29', '2026-01-11 15:13:29'),
+(11, '1st Floor', 'Barracks', 'Main Campus', 'Crim', 'fa-building', '#1d0085', '#9190ea', 'Equipment', 'Sir Jose', 1, '2026-01-18 06:26:59', '2026-01-27 03:35:49'),
+(14, '1st Floor', 'IT Center', 'Main Campus', 'Information Technology Center', 'fa-desktop', '#2ee7ff', '#147aff', 'Equipment', 'Manager', 1, '2026-01-23 02:30:48', '2026-01-27 03:35:54'),
+(15, '4th Floor', 'EdTech', 'Main Campus', 'Educational Technology', 'fa-desktop', '#47ff97', '#389fff', 'Units', 'Manager', 1, '2026-01-23 02:49:43', '2026-01-23 02:50:11'),
+(16, '3rd Floor', 'LabTech', 'Main Campus', 'Bodega :3', 'fa-desktop', '#6bffb5', '#20c997', 'Units', 'Ryan Mateo', 1, '2026-01-23 06:50:05', '2026-01-23 06:50:05'),
+(17, '4th Floor', 'Biology Laboratory', 'Main Campus', 'Science Lab', 'fa-flask', '#d2fe34', '#d4d742', 'Lab', 'Manager', 1, '2026-01-23 07:03:50', '2026-01-23 07:06:47'),
+(20, '1st Floor', 'Admin Office', 'South Campus', 'Office of the Vice President for Administration', 'fa-briefcase', '#008543', '#20c997', 'Equipment', 'Manager', 1, '2026-02-02 04:12:51', '2026-02-02 04:12:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `office_equipment`
+--
+
+CREATE TABLE `office_equipment` (
+  `id` int(11) NOT NULL,
+  `item_number` varchar(50) DEFAULT NULL,
+  `property_no` varchar(255) DEFAULT NULL,
+  `equipment_name` varchar(255) NOT NULL,
+  `brand` varchar(100) DEFAULT NULL,
+  `model` varchar(100) DEFAULT NULL,
+  `serial_number` varchar(100) DEFAULT NULL,
+  `condition_status` enum('Excellent','Good','Fair','Poor','Damaged') DEFAULT 'Good',
+  `location_id` int(11) DEFAULT NULL,
+  `campus` varchar(100) DEFAULT 'Main Campus',
+  `status` enum('available','assigned','maintenance','condemned') DEFAULT 'available',
+  `is_condemned` tinyint(1) DEFAULT 0,
+  `condemned_date` timestamp NULL DEFAULT NULL,
+  `condemned_reason` text DEFAULT NULL,
+  `condemned_by` int(11) DEFAULT NULL,
+  `assigned_to` int(11) DEFAULT NULL,
+  `assigned_date` datetime DEFAULT NULL,
+  `purchase_date` date DEFAULT NULL,
+  `warranty_expiry` date DEFAULT NULL,
+  `remarks` text DEFAULT NULL,
+  `image_path` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cost` decimal(10,2) DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `requests`
+--
+
+CREATE TABLE `requests` (
+  `id` int(11) NOT NULL,
+  `consumable_id` int(11) NOT NULL,
+  `serial_number` varchar(50) DEFAULT NULL,
+  `brand` varchar(50) DEFAULT NULL,
+  `requester_name` varchar(100) NOT NULL,
+  `faculty` varchar(100) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `purpose` varchar(255) DEFAULT NULL,
+  `request_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `request_status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
+  `remarks` varchar(255) DEFAULT NULL,
+  `employee` varchar(100) DEFAULT NULL,
+  `office` varchar(100) DEFAULT NULL,
+  `date_received` date DEFAULT NULL,
+  `no_supplies` int(11) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `requested_by` varchar(100) DEFAULT NULL,
+  `approved_by` varchar(100) DEFAULT NULL,
+  `supply_officer` varchar(100) DEFAULT NULL,
+  `received_by` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `requests`
+--
+
+INSERT INTO `requests` (`id`, `consumable_id`, `serial_number`, `brand`, `requester_name`, `faculty`, `quantity`, `purpose`, `request_date`, `request_status`, `remarks`, `employee`, `office`, `date_received`, `no_supplies`, `description`, `requested_by`, `approved_by`, `supply_officer`, `received_by`) VALUES
+(27, 51, NULL, NULL, '', NULL, 20, NULL, '2026-02-02 03:05:49', 'Approved', NULL, 'Ryan Mateo', 'LabTech', '2026-02-02', NULL, 'HDMI Cable', NULL, NULL, NULL, NULL),
+(28, 82, NULL, NULL, '', NULL, 250, NULL, '2026-02-01 16:00:00', 'Approved', NULL, 'Ryan Mateo', 'LabTech', '2026-02-02', NULL, 'Legal Bond Paper', 'James Ryan Gregorio', 'REYNALDO H. CARANDANG JR.', 'MARVIN Z. GERVACIO', NULL),
+(29, 79, NULL, NULL, '', NULL, 100, NULL, '2026-02-01 16:00:00', 'Approved', NULL, 'Ryan Mateo', 'LabTech', '2026-02-02', NULL, 'Ballpen', 'James Ryan Gregorio', 'REYNALDO H. CARANDANG JR.', 'MARVIN Z. GERVACIO', NULL),
+(30, 47, NULL, NULL, '', NULL, 10, NULL, '2026-02-20 02:44:56', 'Approved', NULL, 'James Ryan Gregorio', 'LabTech', '2026-02-20', NULL, 'USB Flash Drive', NULL, NULL, NULL, NULL),
+(31, 73, NULL, NULL, '', NULL, 50, NULL, '2026-02-19 16:00:00', 'Approved', NULL, 'Ryan Mateo', 'LabTech', '2026-02-20', NULL, 'Chalk', 'Ryan Mateo', 'REYNALDO H. CARANDANG JR.', 'MARVIN Z. GERVACIO', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transfer_history`
+--
+
+CREATE TABLE `transfer_history` (
+  `id` int(11) NOT NULL,
+  `equipment_ids` text NOT NULL COMMENT 'Comma separated list of IDs',
+  `equipment_type` varchar(50) NOT NULL,
+  `from_campus` varchar(100) NOT NULL,
+  `to_campus` varchar(100) NOT NULL,
+  `previous_accountable` varchar(255) DEFAULT NULL,
+  `new_accountable` varchar(255) NOT NULL,
+  `transfer_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `transferred_by` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transfer_history`
+--
+
+INSERT INTO `transfer_history` (`id`, `equipment_ids`, `equipment_type`, `from_campus`, `to_campus`, `previous_accountable`, `new_accountable`, `transfer_date`, `transferred_by`) VALUES
+(12, '175,176', 'computer_lab', 'South Campus', 'South Campus', 'Monica Mariano', 'Dr. Teodoro Macaraeg Jr.', '2026-01-30 08:47:57', 12);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `role` enum('admin','user') DEFAULT 'user',
+  `campus_assigned` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `reset_token` varchar(255) DEFAULT NULL,
+  `reset_expiry` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `password`, `full_name`, `email`, `role`, `campus_assigned`, `created_at`, `updated_at`, `reset_token`, `reset_expiry`) VALUES
+(12, '$2y$10$p8So25Fce4sivsnq6Jnb1OgryiM4HdKOB5Px.inVH3LtPQMRWqUQq', 'James Ryan Gregorio', 'gregorio.jamesryanbsit2022@gmail.com', 'admin', NULL, '2026-01-30 06:44:45', '2026-01-30 07:03:56', NULL, NULL),
+(15, '$2y$10$fbt5RVPXkt6wNYVBJbQOn.ECCx.KS1DnTp18/KE8IM1ZVeUx4xnnS', 'Ryan Mateo', 'ryemateo25@gmail.com', 'admin', NULL, '2026-02-02 03:23:35', '2026-02-02 03:29:25', NULL, NULL),
+(16, '$2y$10$6pKsUgan/tFXpdgTSxhobeE0I7.1TgOc96hWN9FiKhFasX//TE5aa', 'Jeymz Ryan Gregorio', 'jamesryangregorio@gmail.com', 'admin', NULL, '2026-02-02 04:07:34', '2026-02-02 04:07:34', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `computer_inventory_detailed`
+--
+DROP TABLE IF EXISTS `computer_inventory_detailed`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `computer_inventory_detailed`  AS SELECT `ci`.`id` AS `id`, `ci`.`item_number` AS `item_number`, `ci`.`computer_set_description` AS `computer_set_description`, `ci`.`processor` AS `processor`, `ci`.`ram` AS `ram`, `ci`.`storage` AS `storage`, `ci`.`device_type` AS `device_type`, `ci`.`keyboard_status` AS `keyboard_status`, `ci`.`mouse_status` AS `mouse_status`, `ci`.`power_cord_status` AS `power_cord_status`, `ci`.`hdmi_status` AS `hdmi_status`, `ci`.`operating_system` AS `operating_system`, `ci`.`serial_number` AS `serial_number`, `ci`.`condition_status` AS `condition_status`, `ci`.`location_id` AS `location_id`, `ci`.`remarks` AS `remarks`, `ci`.`status` AS `status`, `ci`.`assigned_to` AS `assigned_to`, `ci`.`assigned_date` AS `assigned_date`, `ci`.`created_at` AS `created_at`, `ci`.`updated_at` AS `updated_at`, `l`.`location_name` AS `location_name`, `u`.`full_name` AS `assigned_user`, concat(case when `ci`.`keyboard_status` = 'OK' then '✓' else '✗' end,case when `ci`.`mouse_status` = 'OK' then '✓' else '✗' end,case when `ci`.`power_cord_status` = 'OK' then '✓' else '✗' end,case when `ci`.`hdmi_status` = 'OK' then '✓' else '✗' end) AS `peripheral_summary` FROM ((`computer_inventory` `ci` left join `locations` `l` on(`ci`.`location_id` = `l`.`id`)) left join `users` `u` on(`ci`.`assigned_to` = `u`.`id`)) ;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `assignment_history`
+--
+ALTER TABLE `assignment_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `assigned_by` (`assigned_by`),
+  ADD KEY `idx_assignment_history_computer` (`computer_id`),
+  ADD KEY `idx_assignment_history_user` (`user_id`),
+  ADD KEY `fk_assignment_location` (`location_id`);
+
+--
+-- Indexes for table `computer_inventory`
+--
+ALTER TABLE `computer_inventory`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_computer_inventory_location` (`location_id`),
+  ADD KEY `idx_computer_inventory_assigned` (`assigned_to`),
+  ADD KEY `idx_computer_inventory_status` (`status`),
+  ADD KEY `fk_computer_inventory_condemned_by` (`condemned_by`);
+
+--
+-- Indexes for table `condemned_equipment`
+--
+ALTER TABLE `condemned_equipment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `condemned_by` (`condemned_by`);
+
+--
+-- Indexes for table `consumables`
+--
+ALTER TABLE `consumables`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `general_equipment`
+--
+ALTER TABLE `general_equipment`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `item_number` (`item_number`),
+  ADD KEY `location_id` (`location_id`),
+  ADD KEY `assigned_to` (`assigned_to`),
+  ADD KEY `fk_general_equipment_condemned_by` (`condemned_by`);
+
+--
+-- Indexes for table `inventory_adjustments`
+--
+ALTER TABLE `inventory_adjustments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `kitchen_equipment`
+--
+ALTER TABLE `kitchen_equipment`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `item_number` (`item_number`),
+  ADD KEY `location_id` (`location_id`),
+  ADD KEY `assigned_to` (`assigned_to`),
+  ADD KEY `fk_kitchen_equipment_condemned_by` (`condemned_by`);
+
+--
+-- Indexes for table `lab_equipment`
+--
+ALTER TABLE `lab_equipment`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `item_number` (`item_number`),
+  ADD KEY `location_id` (`location_id`),
+  ADD KEY `assigned_to` (`assigned_to`),
+  ADD KEY `fk_lab_equipment_condemned_by` (`condemned_by`);
+
+--
+-- Indexes for table `locations`
+--
+ALTER TABLE `locations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `facilitator_id` (`facilitator_id`),
+  ADD KEY `idx_locations_type` (`location_type_id`);
+
+--
+-- Indexes for table `location_types`
+--
+ALTER TABLE `location_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `office_equipment`
+--
+ALTER TABLE `office_equipment`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `item_number` (`item_number`),
+  ADD KEY `location_id` (`location_id`),
+  ADD KEY `assigned_to` (`assigned_to`),
+  ADD KEY `fk_office_equipment_condemned_by` (`condemned_by`);
+
+--
+-- Indexes for table `requests`
+--
+ALTER TABLE `requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `consumable_id` (`consumable_id`);
+
+--
+-- Indexes for table `transfer_history`
+--
+ALTER TABLE `transfer_history`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `assignment_history`
+--
+ALTER TABLE `assignment_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `computer_inventory`
+--
+ALTER TABLE `computer_inventory`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
+
+--
+-- AUTO_INCREMENT for table `condemned_equipment`
+--
+ALTER TABLE `condemned_equipment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `consumables`
+--
+ALTER TABLE `consumables`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+
+--
+-- AUTO_INCREMENT for table `general_equipment`
+--
+ALTER TABLE `general_equipment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `inventory_adjustments`
+--
+ALTER TABLE `inventory_adjustments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `kitchen_equipment`
+--
+ALTER TABLE `kitchen_equipment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `lab_equipment`
+--
+ALTER TABLE `lab_equipment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `locations`
+--
+ALTER TABLE `locations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `location_types`
+--
+ALTER TABLE `location_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `office_equipment`
+--
+ALTER TABLE `office_equipment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `requests`
+--
+ALTER TABLE `requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `transfer_history`
+--
+ALTER TABLE `transfer_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `assignment_history`
+--
+ALTER TABLE `assignment_history`
+  ADD CONSTRAINT `assignment_history_ibfk_1` FOREIGN KEY (`computer_id`) REFERENCES `computer_inventory` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `assignment_history_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `assignment_history_ibfk_3` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_assignment_location` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `computer_inventory`
+--
+ALTER TABLE `computer_inventory`
+  ADD CONSTRAINT `computer_inventory_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `computer_inventory_ibfk_2` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_computer_inventory_condemned_by` FOREIGN KEY (`condemned_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `condemned_equipment`
+--
+ALTER TABLE `condemned_equipment`
+  ADD CONSTRAINT `condemned_equipment_ibfk_1` FOREIGN KEY (`condemned_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `general_equipment`
+--
+ALTER TABLE `general_equipment`
+  ADD CONSTRAINT `fk_general_equipment_condemned_by` FOREIGN KEY (`condemned_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `general_equipment_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `general_equipment_ibfk_2` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `kitchen_equipment`
+--
+ALTER TABLE `kitchen_equipment`
+  ADD CONSTRAINT `fk_kitchen_equipment_condemned_by` FOREIGN KEY (`condemned_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `kitchen_equipment_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `kitchen_equipment_ibfk_2` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `lab_equipment`
+--
+ALTER TABLE `lab_equipment`
+  ADD CONSTRAINT `fk_lab_equipment_condemned_by` FOREIGN KEY (`condemned_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `lab_equipment_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `lab_equipment_ibfk_2` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `locations`
+--
+ALTER TABLE `locations`
+  ADD CONSTRAINT `locations_ibfk_1` FOREIGN KEY (`location_type_id`) REFERENCES `location_types` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `locations_ibfk_2` FOREIGN KEY (`facilitator_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `office_equipment`
+--
+ALTER TABLE `office_equipment`
+  ADD CONSTRAINT `fk_office_equipment_condemned_by` FOREIGN KEY (`condemned_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `office_equipment_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `office_equipment_ibfk_2` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `requests`
+--
+ALTER TABLE `requests`
+  ADD CONSTRAINT `requests_ibfk_1` FOREIGN KEY (`consumable_id`) REFERENCES `consumables` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

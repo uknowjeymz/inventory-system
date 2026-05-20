@@ -1,0 +1,330 @@
+/* UCC Labtech User Dashboard CSS */
+
+/* Sidebar Styles */
+.user-sidebar {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #008543 0%, #006d36 100%);
+}
+
+#user-sidebar-nav-link {
+    color: rgba(255,255,255,0.8);
+    padding: 12px 20px;
+    margin: 2px 0;
+    border-radius: 8px;
+}
+
+#user-sidebar-nav-link:hover, 
+#user-sidebar-nav-link.active {
+    color: white;
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Main Content */
+#user-main-content {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Card Styles */
+#user-card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: none;
+    border-radius: 0.5rem;
+}
+
+#user-navbar-brand {
+    font-weight: bold;
+}
+
+/* Interactive Elements */
+#user-hover-shadow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.3s ease;
+}
+
+/* Border Styles */
+#user-border-left-primary {
+    border-left: 0.25rem solid #008543 !important;
+}
+
+#user-border-left-success {
+    border-left: 0.25rem solid #008543 !important;
+}
+
+#user-border-left-info {
+    border-left: 0.25rem solid #20a85a !important;
+}
+
+#user-border-left-warning {
+    border-left: 0.25rem solid #FFC107 !important;
+}
+
+/* Assignment Cards */
+#user-assignment-card {
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid #e3e6f0;
+}
+
+#user-assignment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Equipment Status Badges */
+#user-status-badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+}
+
+/* Dashboard Welcome Section */
+#user-welcome-section {
+    background: linear-gradient(135deg, #008543 0%, #006d36 100%);
+    color: white;
+    border-radius: 0.5rem;
+    padding: 2rem;
+}
+
+/* Statistics Cards */
+#user-stats-card {
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#user-stats-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Equipment List */
+#user-equipment-list {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+#user-equipment-item {
+    padding: 1rem;
+    border-bottom: 1px solid #e3e6f0;
+    transition: background-color 0.3s ease;
+}
+
+#user-equipment-item:hover {
+    background-color: #f8f9fa;
+}
+
+#user-equipment-item:last-child {
+    border-bottom: none;
+}
+
+/* Form Styles */
+#user-form-control {
+    border-radius: 0.375rem;
+    border: 1px solid #d1d3e2;
+    transition: all 0.3s ease;
+}
+
+#user-form-control:focus {
+    border-color: #008543;
+    box-shadow: 0 0 0 0.2rem rgba(0, 133, 67, 0.25);
+}
+
+/* Button Styles */
+#user-btn-primary {
+    background: linear-gradient(135deg, #008543 0%, #006d36 100%);
+    border: none;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+#user-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 133, 67, 0.3);
+}
+
+#user-btn-outline {
+    border: 2px solid #008543;
+    color: #008543;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+#user-btn-outline:hover {
+    background: #008543;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Alert Styles */
+#user-alert {
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Modal Styles */
+#user-modal-header {
+    background: linear-gradient(135deg, #008543 0%, #006d36 100%);
+    color: white;
+    border-radius: 0.375rem 0.375rem 0 0;
+}
+
+/* Table Styles */
+#user-table {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+#user-table thead {
+    background: linear-gradient(135deg, #008543 0%, #006d36 100%);
+    color: white;
+}
+
+#user-table tbody tr:hover {
+    background-color: rgba(0, 133, 67, 0.05);
+}
+
+/* Progress Bars */
+#user-progress-bar {
+    height: 0.5rem;
+    border-radius: 0.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #user-sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        z-index: 1050;
+        transition: left 0.3s ease;
+    }
+    
+    #user-sidebar.show {
+        left: 0;
+    }
+    
+    #user-main-content {
+        margin-left: 0;
+    }
+    
+    #user-stats-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Animation Classes */
+@keyframes user-fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+#user-animate-fade-in {
+    animation: user-fadeIn 0.5s ease-in;
+}
+
+@keyframes user-slideIn {
+    from { 
+        opacity: 0; 
+        transform: translateX(-20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateX(0); 
+    }
+}
+
+#user-animate-slide-in {
+    animation: user-slideIn 0.5s ease-in;
+}
+
+/* Loading States */
+#user-loading-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid rgba(0, 133, 67, 0.3);
+    border-radius: 50%;
+    border-top-color: #008543;
+    animation: user-spin 1s ease-in-out infinite;
+}
+
+@keyframes user-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Custom Scrollbar */
+#user-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+#user-sidebar::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+}
+
+#user-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+}
+
+#user-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5);
+}
+
+/* Equipment Status Colors */
+#user-status-available {
+    background-color: #008543;
+    color: white;
+}
+
+#user-status-assigned {
+    background-color: #20a85a;
+    color: white;
+}
+
+#user-status-maintenance {
+    background-color: #FFC107;
+    color: #333;
+}
+
+#user-status-damaged {
+    background-color: #e74a3b;
+    color: white;
+}
+
+/* Equipment Type Icons */
+#user-equipment-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+#user-equipment-icon.desktop {
+    background-color: rgba(0, 133, 67, 0.1);
+    color: #008543;
+}
+
+#user-equipment-icon.laptop {
+    background-color: rgba(32, 168, 90, 0.1);
+    color: #20a85a;
+}
+
+#user-equipment-icon.all-in-one {
+    background-color: rgba(0, 133, 67, 0.1);
+    color: #008543;
+}

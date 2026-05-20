@@ -1,0 +1,179 @@
+<?php
+session_start();
+// Set the timezone to Asia/Manila
+date_default_timezone_set('Asia/Manila');
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
+    die("Unauthorized access");
+}
+
+require_once '../vendor/autoload.php';
+require_once '../config/database.php';
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+$database = new Database();
+$db = $database->getConnection();
+
+// --- PREPARE LOGOS (Base64 for reliability) ---
+function getBase64Image($path) {
+    if (file_exists($path)) {
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
+    }
+    return '';
+}
+
+$uccLogo = getBase64Image('../assets/UCC_Logo.png');
+$caloocanLogo = getBase64Image('../assets/caloocan.png');
+
+// 1. Fetch data logic (Keep your existing UNION query)
+$tables_with_condemned = [];
+$equipment_tables = [
+    'computer_inventory' => ['Computer', 'computer', 'computer_set_description'],
+    'kitchen_equipment' => ['Kitchen Equipment', 'kitchen', 'equipment_name'], 
+    'office_equipment' => ['Office Equipment', 'office', 'equipment_name'],
+    'lab_equipment' => ['Lab Equipment', 'lab', 'equipment_name'],
+    'general_equipment' => ['General Equipment', 'general', 'article']
+];
+
+foreach ($equipment_tables as $table => $info) {
+    try {
+        $check = $db->query("SHOW COLUMNS FROM `{$table}` LIKE 'is_condemned'");
+        if ($check && $check->rowCount() > 0) { $tables_with_condemned[$table] = $info; }
+    } catch (Exception $e) { continue; }
+}
+
+$query_parts = [];
+$query_parts[] = "SELECT ce.model, ce.category, ce.serial_number, ce.reason_condemned, ce.condemned_date, ce.disposal_status 
+                  FROM condemned_equipment ce";
+
+foreach ($tables_with_condemned as $table => $info) {
+    list($category, $type, $name_col) = $info;
+    $sn_col = ($table === 'general_equipment') ? 'property_no' : 'serial_number';
+    $query_parts[] = "SELECT {$table}.{$name_col} as model, '{$category}' as category, {$table}.{$sn_col} as serial_number, 
+                      {$table}.condemned_reason as reason_condemned, {$table}.condemned_date, 'Pending' as disposal_status 
+                      FROM {$table} WHERE {$table}.is_condemned = 1";
+}
+
+$query = implode(" UNION ALL ", $query_parts) . " ORDER BY condemned_date DESC";
+$stmt = $db->query($query);
+$items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 2. Build HTML
+$html = '
+<html>
+<head>
+    <style>
+        @page { margin: 100px 25px; }
+        body { font-family: "Helvetica", sans-serif; font-size: 10px; color: #333; line-height: 1.4; }
+        
+        /* Header Section - Centered Layout */
+        .header { position: fixed; top: -85px; left: 0px; right: 0px; height: 100px; }
+        .header table { width: auto; margin: 0 auto; border-collapse: collapse; }
+        .header .logo-ucc { padding-right: 15px; }
+        .header .header-text { text-align: center; }
+        .header h1 { margin: 0; font-size: 18px; color: #000; letter-spacing: 1px; }
+        .header p { margin: 2px 0; font-size: 11px; }
+        .report-title { margin-top: 5px; font-weight: bold; text-decoration: underline; font-size: 12px; }
+
+        /* Table Section */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid #000; }
+        .data-table th { background-color: #f2f2f2; border: 1px solid #000; padding: 8px; text-align: left; text-transform: uppercase; font-size: 9px; }
+        .data-table td { border: 1px solid #000; padding: 7px; vertical-align: top; }
+        
+        /* Footer Section - New Grid Layout */
+        .footer { position: fixed; bottom: -60px; left: 0px; right: 0px; height: 60px; border-top: 1px solid #ccc; padding-top: 10px; }
+        .footer table { width: 100%; border-collapse: collapse; }
+        .footer-left { text-align: left; width: 33%; vertical-align: bottom; }
+        .footer-center { text-align: center; width: 34%; vertical-align: bottom; font-weight: bold; }
+        .footer-right { text-align: right; width: 33%; vertical-align: bottom; }
+        .footer-info { font-size: 9px; color: #333; }
+        .logo-caloocan img { width: 130px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <table>
+            <tr>
+                <td class="logo-ucc">
+                    ' . ($uccLogo ? '<img src="' . $uccLogo . '" style="width: 55px;">' : '') . '
+                </td>
+                <td class="header-text">
+                    <h1>UNIVERSITY OF CALOOCAN CITY</h1>
+                    <p>INVENTORY MANAGEMENT SYSTEM</p>
+                    <p class="report-title">OFFICIAL CONDEMNED EQUIPMENT REPORT</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        <table>
+            <tr>
+                <td class="footer-left">
+                    <div class="footer-info">
+                        Generated by: <strong>' . htmlspecialchars($_SESSION['full_name'] ?? 'Admin') . '</strong><br>
+                        Date: ' . date('M d, Y h:i A') . '
+                    </div>
+                </td>
+                <td class="footer-center">
+                    Page 1 of 1
+                </td>
+                <td class="footer-right">
+                    <div class="logo-caloocan">
+                        ' . ($caloocanLogo ? '<img src="' . $caloocanLogo . '">' : '') . '
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th width="20%">Equipment Description</th>
+                <th width="12%">Category</th>
+                <th width="18%">Serial/Property No.</th>
+                <th width="12%">Date Condemned</th>
+                <th width="13%">Status</th>
+                <th width="25%">Reason for Condemnation</th>
+            </tr>
+        </thead>
+        <tbody>';
+
+if (empty($items)) {
+    $html .= '<tr><td colspan="6" style="text-align:center; padding: 20px;">No condemned records found.</td></tr>';
+} else {
+    foreach ($items as $item) {
+        $html .= '<tr>
+            <td><strong>' . htmlspecialchars($item['model']) . '</strong></td>
+            <td>' . htmlspecialchars($item['category']) . '</td>
+            <td>' . htmlspecialchars($item['serial_number']) . '</td>
+            <td>' . ($item['condemned_date'] ? date('M d, Y', strtotime($item['condemned_date'])) : 'N/A') . '</td>
+            <td style="text-transform: uppercase;">' . htmlspecialchars($item['disposal_status']) . '</td>
+            <td>' . htmlspecialchars($item['reason_condemned']) . '</td>
+        </tr>';
+    }
+}
+
+$html .= '
+        </tbody>
+    </table>
+</body>
+</html>';
+
+// 3. Generate PDF
+$options = new Options();
+$options->set('isHtml5ParserEnabled', true);
+$options->set('isRemoteEnabled', true); 
+$options->set('defaultFont', 'Helvetica');
+
+$dompdf = new Dompdf($options);
+$dompdf->loadHtml($html);
+$dompdf->setPaper('A4', 'landscape');
+$dompdf->render();
+
+$dompdf->stream("UCC_Condemned_Report_" . date('Ymd') . ".pdf", ["Attachment" => false]);

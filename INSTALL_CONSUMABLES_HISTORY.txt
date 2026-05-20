@@ -1,0 +1,114 @@
+================================================================================
+QUICK INSTALLATION GUIDE - CONSUMABLES HISTORY
+================================================================================
+
+STEP 1: RUN THE DATABASE MIGRATION
+--------------------------------------------------------------------------------
+1. Open phpMyAdmin (http://localhost/phpmyadmin)
+2. Select your database: ucc_labtech
+3. Click on "Import" tab
+4. Click "Choose File" and select: database/consumables_history_migration.sql
+5. Click "Go" button at the bottom
+6. You should see: "Import has been successfully finished"
+
+STEP 2: VERIFY TABLE CREATED
+--------------------------------------------------------------------------------
+1. In phpMyAdmin, click on your database (ucc_labtech) in the left sidebar
+2. Look for the table: consumables_history
+3. Click on it to verify it has these columns:
+   - id
+   - consumable_id
+   - action_type
+   - previous_quantity
+   - quantity_change
+   - new_quantity
+   - action_date
+   - performed_by
+   - reference_type
+   - reference_id
+   - remarks
+   - created_at
+
+STEP 3: TEST THE FEATURE
+--------------------------------------------------------------------------------
+1. Go to: http://localhost/UCC-Labtech/admin/consumables.php
+2. Add a new consumable item (e.g., "Test Ballpen", quantity: 100)
+3. Click on the item to view details
+4. You should see in the "Recent History" section:
+   - Action: Initial Stock
+   - Change: +100
+   - Previous: 0
+   - New Total: 100
+
+5. Now refill the item (add 50 more)
+6. View the item again
+7. You should see TWO history records:
+   - Latest: Refilled (+50)
+   - Earlier: Initial Stock (+100)
+
+STEP 4: VIEW FULL HISTORY PAGE
+--------------------------------------------------------------------------------
+1. Go to: http://localhost/UCC-Labtech/admin/consumable_history.php
+2. You should see all consumable history with filters
+3. Try filtering by:
+   - Consumable item
+   - Action type (Initial, Refill, Released, etc.)
+   - Date range
+
+WHAT YOU'LL SEE NOW:
+--------------------------------------------------------------------------------
+
+When viewing a consumable item, the history table shows:
+
+┌──────────────────┬──────────────┬─────────┬──────────┬───────────┬──────────┐
+│ Date             │ Action       │ Change  │ Previous │ New Total │ By       │
+├──────────────────┼──────────────┼─────────┼──────────┼───────────┼──────────┤
+│ Mar 3, 2026 2PM  │ Refilled     │ +100    │ 100      │ 200       │ Admin    │
+│ Mar 3, 2026 1PM  │ Released     │ -50     │ 150      │ 100       │ Admin    │
+│ Mar 3, 2026 12PM │ Initial Stock│ +150    │ 0        │ 150       │ Admin    │
+└──────────────────┴──────────────┴─────────┴──────────┴───────────┴──────────┘
+
+ACTION TYPES:
+--------------------------------------------------------------------------------
+- Initial Stock (Blue badge) - When item is first added
+- Refilled (Green badge) - When stock is added
+- Released (Red badge) - When items are given to users
+- Adjusted (Yellow badge) - Manual corrections
+- Edited (Gray badge) - When item details change
+
+TROUBLESHOOTING:
+--------------------------------------------------------------------------------
+
+Problem: "Table 'consumables_history' doesn't exist"
+Solution: Run the migration SQL file again (Step 1)
+
+Problem: "No history showing"
+Solution: 
+- Make sure you added items AFTER running the migration
+- Old items won't have history (only new actions are tracked)
+- Try adding a new item or refilling an existing one
+
+Problem: "Error loading history"
+Solution:
+- Check PHP error log
+- Verify consumables_history table exists
+- Check that foreign keys are properly set
+
+FEATURES NOW AVAILABLE:
+--------------------------------------------------------------------------------
+✓ See when items were first added
+✓ Track all refills with dates and who did it
+✓ See when items were released to users
+✓ View complete audit trail
+✓ Filter history by item, date, action type
+✓ Export/print history reports
+
+NEXT STEPS:
+--------------------------------------------------------------------------------
+1. Add more consumable items to test
+2. Refill some items
+3. Approve some requests to see deductions
+4. Check the history page to see all activities
+5. Use filters to find specific changes
+
+================================================================================

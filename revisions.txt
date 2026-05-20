@@ -1,0 +1,19 @@
+Revisions:
+
+- Manual Condemned if sira na talaga ang equipment item = GREG = ✅
+- Fix Release report = GREG = ✅
+- Set threshold (20% of consumable item) for critical stock = ✅
+- When Condemning an Item Manually, Data should be fetched and will be removed/archived = GREG = ✅
+- Separate Additional Item (Edit Consumable Item) = GREG = INSTEAD OF THAT, IT IMPLEMENTS IN THE REFILL BUTTON = ✅
+- Choices of Campus in Consumable (in Admin side and Mobile also) = GREG = ✅
+
+- Change the color to Green (Assignment History) = RENZ = ✅
+- All new request should be on top (in Consumable) = RENZ = ✅ GREG DID THAT
+- Add Date to when consumable item is added, also in quantity if the item was critical stock (in Consumable) = RENZ = ✅ BOTH DID THAT
+- Remove/Change Campus To > From to Accountable Person = RENZ = ✅ = GREG DID THAT
+
+KULANG PA:
+
+- Dropdown Received From / To = GREG
+- Change Unit to pcs. (applicable in PAR) e.g., LOT of Package, Unit, Pcs., Box, etc. = RENZ
+- add notification of critical stock = GREG

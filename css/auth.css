@@ -1,0 +1,381 @@
+/* UCC Labtech Authentication CSS */
+
+/* Body and Background */
+#auth-body {
+    background: linear-gradient(135deg, #008543 0%, #006d36 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Hero Section */
+#auth-hero-section {
+    color: white;
+    padding: 100px 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+#auth-hero-section-register {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 40px 0;
+}
+
+/* Login Card */
+#auth-login-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+/* Register Card */
+#auth-register-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+/* Card Header */
+#auth-card-header-custom {
+    background: linear-gradient(135deg, #008543 0%, #006d36 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+    border-radius: 20px 20px 0 0;
+}
+
+/* Form Controls */
+#auth-form-control, #auth-form-select {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+}
+
+#auth-form-control:focus, #auth-form-select:focus {
+    border-color: #008543;
+    box-shadow: 0 0 0 0.2rem rgba(0, 133, 67, 0.25);
+    transform: translateY(-2px);
+}
+
+/* Input Groups */
+#auth-input-group-text {
+    border-radius: 10px 0 0 10px;
+    border: 2px solid #e9ecef;
+    border-right: none;
+}
+
+#auth-input-group .form-control {
+    border-radius: 0 10px 10px 0;
+}
+
+#auth-input-group:focus-within .input-group-text {
+    border-color: #008543;
+}
+
+/* Form Labels */
+#auth-form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+/* Buttons */
+#auth-btn-login {
+    background: linear-gradient(135deg, #008543 0%, #006d36 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#auth-btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 133, 67, 0.3);
+}
+
+#auth-btn-register {
+    background: linear-gradient(135deg, #008543 0%, #006d36 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+#auth-btn-register:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 133, 67, 0.3);
+}
+
+/* Brand Title */
+#auth-brand-title {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Register Link */
+#auth-register-link {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+/* Role Cards */
+#auth-role-card {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 5px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#auth-role-card:hover {
+    border-color: #008543;
+    background-color: #f8f9ff;
+}
+
+#auth-role-card.selected {
+    border-color: #008543;
+    background-color: #f8f9ff;
+}
+
+/* Password Strength */
+#auth-password-strength {
+    height: 5px;
+    border-radius: 3px;
+    margin-top: 5px;
+    transition: all 0.3s ease;
+}
+
+#auth-strength-weak { 
+    background-color: #dc3545; 
+}
+
+#auth-strength-medium { 
+    background-color: #ffc107; 
+}
+
+#auth-strength-strong { 
+    background-color: #008543; 
+}
+
+/* Floating Labels */
+#auth-floating-label {
+    position: relative;
+}
+
+#auth-floating-label .form-control:focus + .form-label,
+#auth-floating-label .form-control:not(:placeholder-shown) + .form-label {
+    transform: translateY(-25px) scale(0.8);
+    color: #008543;
+}
+
+/* Icon Input */
+#auth-icon-input {
+    position: relative;
+}
+
+#auth-icon-input i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+}
+
+#auth-icon-input .form-control {
+    padding-left: 45px;
+}
+
+/* Step Indicator */
+#auth-step-indicator {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+#auth-step {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    font-weight: bold;
+    color: #6c757d;
+}
+
+#auth-step.active {
+    background-color: #008543;
+    color: white;
+}
+
+#auth-step.completed {
+    background-color: #008543;
+    color: white;
+}
+
+/* Glass Effect */
+#auth-glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Animations */
+@keyframes auth-fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+#auth-animate-fade-in {
+    animation: auth-fadeIn 0.5s ease-in;
+}
+
+@keyframes auth-slideIn {
+    from { 
+        opacity: 0; 
+        transform: translateX(-20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateX(0); 
+    }
+}
+
+#auth-animate-slide-in {
+    animation: auth-slideIn 0.5s ease-in;
+}
+
+/* Loading Spinner */
+#auth-loading-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: auth-spin 1s ease-in-out infinite;
+}
+
+@keyframes auth-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Form Validation States */
+#auth-form-control.is-valid {
+    border-color: #008543;
+    box-shadow: 0 0 0 0.2rem rgba(0, 133, 67, 0.25);
+}
+
+#auth-form-control.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Alert Styles */
+#auth-alert {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #auth-hero-section {
+        padding: 50px 0;
+    }
+    
+    #auth-hero-section-register {
+        padding: 20px 0;
+    }
+    
+    #auth-login-card,
+    #auth-register-card {
+        margin: 20px;
+        border-radius: 15px;
+    }
+    
+    #auth-card-header-custom {
+        padding: 20px;
+        border-radius: 15px 15px 0 0;
+    }
+    
+    #auth-form-control,
+    #auth-form-select {
+        padding: 10px 12px;
+    }
+    
+    #auth-btn-login,
+    #auth-btn-register {
+        padding: 12px;
+    }
+}
+
+/* Focus States */
+#auth-form-control:focus,
+#auth-form-select:focus {
+    outline: none;
+    border-color: #008543;
+    box-shadow: 0 0 0 0.2rem rgba(0, 133, 67, 0.25);
+}
+
+/* Hover Effects */
+#auth-role-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Text Styles */
+#auth-text-primary {
+    color: #008543 !important;
+}
+
+#auth-text-muted {
+    color: #6B7280 !important;
+}
+
+/* Background Utilities */
+#auth-bg-light {
+    background-color: #f8f9fa !important;
+}
+
+#auth-bg-white {
+    background-color: #ffffff !important;
+}
+
+/* Border Utilities */
+#auth-border-0 {
+    border: 0 !important;
+}
+
+#auth-border-end-0 {
+    border-right: 0 !important;
+}
+
+#auth-border-start-0 {
+    border-left: 0 !important;
+}
